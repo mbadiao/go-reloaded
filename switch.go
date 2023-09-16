@@ -7,11 +7,6 @@ import (
 
 func SwitchFunc(SplitFile []string) string {
 	for i := 0; i < len(SplitFile); i++ {
-		if vowel(SplitFile) {
-			if SplitFile[i-1] == "a" || SplitFile[i-1] == "A" {
-				SplitFile[i-1] = SplitFile[i-1] + "n"
-			}
-		}
 		switch SplitFile[i] {
 		case "(hex)":
 			if i > 0 {
