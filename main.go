@@ -12,6 +12,6 @@ func main() {
 		os.Exit(1)
 	}
 	x := OpenFiles(os.Args[1])
-	y := SwitchFunc(SplitText(x))
+	y := vowel(SwitchFunc(SplitText(x)))
 	fmt.Println(y)
 }

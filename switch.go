@@ -2,10 +2,9 @@ package main
 
 import (
 	"strconv"
-	"strings"
 )
 
-func SwitchFunc(SplitFile []string) string {
+func SwitchFunc(SplitFile []string) []string {
 	for i := 0; i < len(SplitFile); i++ {
 		switch SplitFile[i] {
 		case "(hex)":
@@ -68,5 +67,5 @@ func SwitchFunc(SplitFile []string) string {
 			i--
 		}
 	}
-	return strings.Join(SplitFile, " ")
+	return SplitFile
 }
