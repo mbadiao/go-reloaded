@@ -13,5 +13,6 @@ func main() {
 	}
 	x := OpenFiles(os.Args[1])
 	y := vowel(SwitchFunc(SplitText(x)))
-	fmt.Println(y)
+	punctfile := punc(y)
+	fmt.Println(punctfile)
 }

@@ -12,7 +12,7 @@ func SwitchFunc(SplitFile []string) []string {
 				SplitFile[i-1] = hex(SplitFile[i-1])
 			}
 			// Supprime le modèle actuel et l'élément suivant
-			SplitFile = append(SplitFile[:i], SplitFile[i+2:]...)
+			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
 			i-- // Décrémenter i pour rester à la même position après la suppression
 		case "(bin)":
 			if i > 0 {
@@ -36,7 +36,7 @@ func SwitchFunc(SplitFile []string) []string {
 			if i > 0 {
 				SplitFile[i-1] = cap(SplitFile[i-1])
 			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+2:]...)
+			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
 			i--
 		case "(low,":
 			nbr, _ := strconv.Atoi(SplitFile[i+1][:len(SplitFile[i+1])-1])
@@ -45,7 +45,7 @@ func SwitchFunc(SplitFile []string) []string {
 					SplitFile[i-j] = low(SplitFile[i-j])
 				}
 			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+2:]...)
+			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
 			i--
 		case "(cap,":
 			nbr, _ := strconv.Atoi(SplitFile[i+1][:len(SplitFile[i+1])-1])
@@ -63,7 +63,7 @@ func SwitchFunc(SplitFile []string) []string {
 					SplitFile[i-j] = up(SplitFile[i-j])
 				}
 			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+2:]...)
+			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
 			i--
 		}
 	}
