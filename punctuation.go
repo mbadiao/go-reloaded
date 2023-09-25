@@ -23,6 +23,5 @@ func punc(file []string) []string {
 			}
 		}
 	}
-	result := strings.Fields(final)
-	return result
+	return strings.Fields(final)
 }

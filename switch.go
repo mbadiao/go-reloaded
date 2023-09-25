@@ -42,10 +42,12 @@ func SwitchFunc(SplitFile []string) []string {
 			nbr, _ := strconv.Atoi(SplitFile[i+1][:len(SplitFile[i+1])-1])
 			if i > 0 {
 				for j := 1; j <= nbr; j++ {
-					SplitFile[i-j] = low(SplitFile[i-j])
+					if nbr <= len(SplitFile[0:i]) {   
+						SplitFile[i-j] = low(SplitFile[i-j])
+					}
 				}
 			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
+			SplitFile = append(SplitFile[:i], SplitFile[i+2:]...)
 			i--
 		case "(cap,":
 			nbr, _ := strconv.Atoi(SplitFile[i+1][:len(SplitFile[i+1])-1])

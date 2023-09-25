@@ -14,5 +14,6 @@ func OpenFiles(s string) []string {
 	if len(string(file)) == 0 {
 		return strings.SplitAfter("your file is empty !!!"," ")
 	}
+	file = []byte(Par(string(file)))
 	return strings.SplitAfter(string(file), " ")
 }
