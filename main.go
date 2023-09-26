@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
+	//"strings"
 )
 
 func main() {
@@ -14,7 +16,14 @@ func main() {
 
 	x := OpenFiles(os.Args[1])
 	x = punc(x)
-	y := vowel(SwitchFunc(x))
+	x = aps(x)
+	sx := strings.Split(x, " ")
+	modif := SwitchFunc(sx)
+	y := vowel(modif)
 	punctfile := punc(y)
-	fmt.Println(punctfile)
+	repunctfile := repunc(punctfile)
+	resx := strings.Split(repunctfile," ")
+	remodif := SwitchFunc(resx)
+	remodif = aps(remodif)
+	fmt.Println(remodif)
 }

@@ -1,7 +1,10 @@
 package main
 
-func vowel(SplitFile []string) []string {
+import "strings"
+
+func vowel(File string) string {
 	vowels := "aeuiohAEIOUH"
+	SplitFile := strings.Fields( File)
 	for i := 0; i < len(SplitFile); i++ {
 		if SplitFile[i] == "a" || SplitFile[i] == "A" {
 			if i < len(SplitFile)-1 {
@@ -14,5 +17,5 @@ func vowel(SplitFile []string) []string {
 			}
 		}
 	}
-	return SplitFile
+	return strings.Join(SplitFile," ")
 }

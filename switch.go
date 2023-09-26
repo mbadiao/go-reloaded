@@ -1,73 +1,173 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
+	"strings"
+	"unicode"
 )
 
-func SwitchFunc(SplitFile []string) []string {
-	for i := 0; i < len(SplitFile); i++ {
-		switch SplitFile[i] {
-		case "(hex)":
+func SwitchFunc(tabWord []string) string {
+	var nbChar, confirm, y int
+	var surplus string
+	for i := 0; i < len(tabWord); i++ {
+		nbChar, y = 0, 1
+		surplus = ""
+		if strings.Contains(tabWord[i], "(up)") {
 			if i > 0 {
-				SplitFile[i-1] = hex(SplitFile[i-1])
+				for !verify(tabWord[i-y]) {
+					if i <= y {
+						break
+					}
+					y++
+				}
+				tabWord[i-y] = strings.ToUpper(tabWord[i-y])
+				fmt.Println(surplus)
+				for l := 5; l < len(tabWord[i]); l++ {
+					surplus += tabWord[i][l:]
+				}
+				fmt.Println(surplus)
+				tabWord[i-1] += surplus
 			}
-			// Supprime le modèle actuel et l'élément suivant
-			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
-			i-- // Décrémenter i pour rester à la même position après la suppression
-		case "(bin)":
-			if i > 0 {
-				SplitFile[i-1] = bin(SplitFile[i-1])
-			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
+			tabWord = append(tabWord[:i], tabWord[i+1:]...)
 			i--
-		case "(up)":
+		} else if strings.Contains(tabWord[i], "(low)") {
 			if i > 0 {
-				SplitFile[i-1] = up(SplitFile[i-1])
+				for !verify(tabWord[i-y]) {
+					if i <= y {
+						break
+					}
+					y++
+				}
+				tabWord[i-y] = strings.ToLower(tabWord[i-y])
+				for l := 6; l < len(tabWord[i]); l++ {
+					surplus += tabWord[i][l:]
+				}
+				tabWord[i-1] += surplus
 			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
+			tabWord = append(tabWord[:i], tabWord[i+1:]...)
 			i--
-		case "(low)":
+		} else if strings.Contains(tabWord[i], "(cap)") {
 			if i > 0 {
-				SplitFile[i-1] = low(SplitFile[i-1])
+				for !verify(tabWord[i-y]) {
+					if i <= y {
+						break
+					}
+					y++
+				}
+				tabWord[i-y] = strings.ToLower(tabWord[i-y])
+				tabWord[i-y] = cap(tabWord[i-y])
+				for l := 6; l < len(tabWord[i]); l++ {
+					surplus += tabWord[i][l:]
+				}
+				tabWord[i-1] += surplus
 			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
+			tabWord = append(tabWord[:i], tabWord[i+1:]...)
 			i--
-		case "(cap)":
+		} else if tabWord[i] == "(up," && i+1 < len(tabWord) {
 			if i > 0 {
-				SplitFile[i-1] = cap(SplitFile[i-1])
-			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
-			i--
-		case "(low,":
-			nbr, _ := strconv.Atoi(SplitFile[i+1][:len(SplitFile[i+1])-1])
-			if i > 0 {
-				for j := 1; j <= nbr; j++ {
-					if nbr <= len(SplitFile[0:i]) {   
-						SplitFile[i-j] = low(SplitFile[i-j])
+				for k := 0; k < len(tabWord[i+1]); k++ {
+					if tabWord[i+1][k] == '-' || tabWord[i+1][k] == '+' {
+						continue
+					}
+					if !unicode.IsNumber(rune(tabWord[i+1][k])) {
+						nbChar++
+					}
+					if k > 1 {
+						if tabWord[i+1][k] == ')' && !unicode.IsNumber(rune(tabWord[i+1][k-1])) || !strings.Contains(tabWord[i+1], ")") {
+							return "Ce n'est pas une instance"
+						}
 					}
 				}
-			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+2:]...)
-			i--
-		case "(cap,":
-			nbr, _ := strconv.Atoi(SplitFile[i+1][:len(SplitFile[i+1])-1])
-			if i > 0 {
-				for j := 1; j <= nbr; j++ {
-					SplitFile[i-j] = cap(SplitFile[i-j])
+				nbre, _ := strconv.Atoi(tabWord[i+1][:len(tabWord[i+1])-nbChar])
+				if nbre > i {
+					nbre = i
 				}
-			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+2:]...)
-			i--
-		case "(up,":
-			nbr, _ := strconv.Atoi(SplitFile[i+1][:len(SplitFile[i+1])-1])
-			if i > 0 {
-				for j := 1; j <= nbr; j++ {
-					SplitFile[i-j] = up(SplitFile[i-j])
+				for !verify(tabWord[i-y]) {
+					if i <= y {
+						break
+					}
+					y++
 				}
+				for j := y; j <= nbre+(y-1); j++ {
+					tabWord[i-j] = strings.ToUpper(tabWord[i-j])
+				}
+				confirm = nbre
 			}
-			SplitFile = append(SplitFile[:i], SplitFile[i+1:]...)
-			i--
+			if nbChar != len(tabWord[i+1]) {
+				tabWord = append(tabWord[:i], tabWord[i+2:]...)
+			}
+			if confirm != 0 {
+				i--
+			}
+		} else if tabWord[i] == "(cap," && i+1 < len(tabWord) {
+			if i > 0 {
+				for k := 0; k < len(tabWord[i+1]); k++ {
+					if tabWord[i+1][k] == '-' || tabWord[i+1][k] == '+' {
+						continue
+					}
+					if !unicode.IsNumber(rune(tabWord[i+1][k])) {
+						nbChar++
+					}
+				}
+				nbre, _ := strconv.Atoi(tabWord[i+1][:len(tabWord[i+1])-nbChar])
+				if nbre > i {
+					nbre = i
+				}
+				for !verify(tabWord[i-y]) {
+					if i <= y {
+						break
+					}
+					y++
+				}
+				for j := y; j <= nbre+(y-1); j++ {
+					tabWord[i-j] = strings.ToLower(tabWord[i-j])
+					tabWord[i-j] = cap(tabWord[i-j])
+				}
+				confirm = nbre
+			}
+			if nbChar != len(tabWord[i+1]) {
+				tabWord = append(tabWord[:i], tabWord[i+2:]...)
+			}
+			if confirm != 0 {
+				i--
+			}
+		} else if tabWord[i] == "(low," && i+1 < len(tabWord) {
+			if i > 0 {
+				for k := 0; k < len(tabWord[i+1]); k++ {
+					if tabWord[i+1][k] == '-' || tabWord[i+1][k] == '+' {
+						continue
+					}
+					if !unicode.IsNumber(rune(tabWord[i+1][k])) {
+						nbChar++
+					}
+				}
+				nbre, _ := strconv.Atoi(tabWord[i+1][:len(tabWord[i+1])-nbChar])
+				if nbre > i {
+					nbre = i
+				}
+				for !verify(tabWord[i-y]) {
+					if i <= y {
+						break
+					}
+					y++
+				}
+				for j := y; j <= nbre+(y-1); j++ {
+					tabWord[i-j] = strings.ToLower(tabWord[i-j])
+				}
+				for l := 1; l < nbChar; l++ {
+					surplus += tabWord[i+1][len(tabWord[i+1])-l:]
+				}
+				tabWord[i-1] += surplus
+				confirm = nbre
+			}
+			if nbChar != len(tabWord[i+1]) {
+				tabWord = append(tabWord[:i], tabWord[i+2:]...)
+			}
+			if confirm != 0 {
+				i--
+			}
 		}
 	}
-	return SplitFile
+	return strings.Join(tabWord, " ")
 }
