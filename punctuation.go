@@ -1,18 +1,30 @@
 package main
 
-import "regexp"
+import "strings"
 
-func punc(file string) string {
-	//pour supprimer l'espace avant la ponctuation
-	re := regexp.MustCompile(`\s+([.,;:!?]+)`)
-	
-	final := re.ReplaceAllString(file, "$1")
-	
-	return final
-}
-
-func repunc(file string) string{
-	re1 := regexp.MustCompile(`([.,;:!?]+)`)
-	final := re1.ReplaceAllString(file, "$1 ")
-	return final
+func punc(tabWord []string) []string {
+	var final string
+	text := strings.Join(tabWord, " ")
+	tabChar := []rune(text)
+	// Retrait space arrière
+	for i := 1; i < len(tabChar); i++ {
+		if tabChar[i] == '.' || tabChar[i] == ',' || tabChar[i] == ';' || tabChar[i] == '!' || tabChar[i] == '?' || tabChar[i] == ':' {
+			for tabChar[i-1] == ' ' {
+				tabChar = append(tabChar[:i-1], tabChar[i:]...)
+			}
+		}
+	}
+	// Ajout space avant
+	for i := 0; i < len(tabChar); i++ {
+		final += string(tabChar[i])
+		if tabChar[i] == '.' || tabChar[i] == ',' || tabChar[i] == ';' || tabChar[i] == '!' || tabChar[i] == '?' || tabChar[i] == ':' {
+			if i < len(tabChar)-1 {
+				if tabChar[i+1] != '.' && tabChar[i+1] != ',' && tabChar[i+1] != ';' && tabChar[i+1] != '!' && tabChar[i+1] != '?' && tabChar[i+1] != ':' {
+					final += " "
+				}
+			}
+		}
+	}
+	result := strings.Fields(final)
+	return result
 }

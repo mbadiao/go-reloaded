@@ -1,21 +1,32 @@
 package main
 
-import "strings"
+import "unicode"
 
-func vowel(File string) string {
-	vowels := "aeuiohAEIOUH"
-	SplitFile := strings.Fields( File)
-	for i := 0; i < len(SplitFile); i++ {
-		if SplitFile[i] == "a" || SplitFile[i] == "A" {
-			if i < len(SplitFile)-1 {
-				for j := 0; j < len(vowels); j++ {
-					if len(SplitFile[i+1]) > 0 && SplitFile[i+1][0] == vowels[j] {
-						SplitFile[i] += "n"
-						break // Exit the inner loop once "n" is added
+func vowel(tabWord []string) []string {
+	str := "aeiouhAEIOUH"
+	var k int
+	for i := 0; i < len(tabWord); i++ {
+		if tabWord[i] == "a" || tabWord[i] == "A" {
+			if i < len(tabWord)-1 {
+				for j := 0; j < len(str); j++ {
+					if !unicode.IsLetter(rune(tabWord[i+1][k])) {
+						if k < len(tabWord[i+1]) {
+							k++
+						}
+						if k == len(tabWord[i+1]) {
+							break
+						}
+						if j > 0 {
+							j--
+						}
+					}
+					if tabWord[i+1][k] == str[j] {
+						tabWord[i] += "n"
+						break
 					}
 				}
 			}
 		}
 	}
-	return strings.Join(SplitFile," ")
+	return tabWord
 }

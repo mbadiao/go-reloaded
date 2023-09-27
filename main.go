@@ -9,22 +9,24 @@ import (
 
 func main() {
 	// if they are more than 2 arguments
-	if len(os.Args[1:]) != 1 {
+	if len(os.Args[1:]) != 2 {
 		fmt.Println("Il ne doit y avoir deux arguments")
 		os.Exit(1)
 	}
 
-	x := OpenFiles(os.Args[1])
-	x = punc(x)
-	x = aps(x)
-	x = Par(x)
-	sx := strings.Split(x, " ")
-	modif := SwitchFunc(sx)
-	y := vowel(modif)
-	punctfile := punc(y)
-	repunctfile := repunc(punctfile)
-	resx := strings.Split(repunctfile," ")
-	remodif := SwitchFunc(resx)
-	remodif = aps(remodif)
-	fmt.Println(remodif)
+	TextFile := OpenFiles(os.Args[1])
+	AfterPonctuations := punc(TextFile)
+	SplitAfterPonctuations := GoodKeys(AfterPonctuations)
+	AfterPonctuations = punc(SplitAfterPonctuations)
+	ApsText := aps(AfterPonctuations)
+	AfterKey := GoodKeys(ApsText)
+	ModifText := SwitchFunc(AfterKey)
+	AfterModifText := hexbin(ModifText)
+	AfterModifText = punc(AfterModifText)
+	AfterModifText = aps(AfterModifText)
+	AfterModifText = SwitchFunc(AfterModifText)
+	AfterModifText = vowel(AfterModifText)
+	AfterModifText = punc(AfterModifText)
+	os.WriteFile(os.Args[2], []byte(strings.Join(AfterModifText, " ")), 0666)
+	//fmt.Println(remodif)
 }

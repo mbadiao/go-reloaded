@@ -3,16 +3,21 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
-func OpenFiles(s string) string {
-	file, err := os.ReadFile(s)
+func OpenFiles(TextFile string) []string {
+	file, err := os.ReadFile(TextFile)
 	if err != nil {
 		fmt.Println("erreur l'ors de l'ouverture du fichier", err)
 	}
-	if len(string(file)) == 0 {
-		return "your file is empty !!!"
+	if !TextGood(string(TextFile)) {
+		return []string{ "Your", "file content a irregular word" }
 	}
-	file = []byte(Par(string(file)))
-	return string(file)
+	if len(string(file)) == 0 {
+		return []string{ "Your","file is empty !!!" }
+	}
+
+	fileFinal := strings.Fields(string(file))
+	return fileFinal
 }
