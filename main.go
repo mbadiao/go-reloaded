@@ -17,6 +17,7 @@ func main() {
 	x := OpenFiles(os.Args[1])
 	x = punc(x)
 	x = aps(x)
+	x = Par(x)
 	sx := strings.Split(x, " ")
 	modif := SwitchFunc(sx)
 	y := vowel(modif)

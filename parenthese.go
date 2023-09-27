@@ -26,3 +26,5 @@ func Par(input string) string {
 
 	return result
 }
+
+//func repar(input)

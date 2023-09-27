@@ -64,7 +64,7 @@ func SwitchFunc(tabWord []string) string {
 			}
 			tabWord = append(tabWord[:i], tabWord[i+1:]...)
 			i--
-		} else if tabWord[i] == "(up," && i+1 < len(tabWord) {
+		} else if tabWord[i] == "(up," && i+1 < len(tabWord) && strings.HasSuffix(tabWord[i+1],")") {
 			if i > 0 {
 				for k := 0; k < len(tabWord[i+1]); k++ {
 					if tabWord[i+1][k] == '-' || tabWord[i+1][k] == '+' {
@@ -100,7 +100,7 @@ func SwitchFunc(tabWord []string) string {
 			if confirm != 0 {
 				i--
 			}
-		} else if tabWord[i] == "(cap," && i+1 < len(tabWord) {
+		} else if tabWord[i] == "(cap," && i+1 < len(tabWord) && strings.HasSuffix(tabWord[i+1],")") {
 			if i > 0 {
 				for k := 0; k < len(tabWord[i+1]); k++ {
 					if tabWord[i+1][k] == '-' || tabWord[i+1][k] == '+' {
@@ -132,7 +132,7 @@ func SwitchFunc(tabWord []string) string {
 			if confirm != 0 {
 				i--
 			}
-		} else if tabWord[i] == "(low," && i+1 < len(tabWord) {
+		} else if tabWord[i] == "(low," && i+1 < len(tabWord) && strings.HasSuffix(tabWord[i+1],")") {
 			if i > 0 {
 				for k := 0; k < len(tabWord[i+1]); k++ {
 					if tabWord[i+1][k] == '-' || tabWord[i+1][k] == '+' {
