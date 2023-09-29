@@ -16,9 +16,12 @@ func main() {
 
 	TextFile := OpenFiles(os.Args[1])
 	AfterPonctuations := punc(TextFile)
+	stringsF := strings.Join(AfterPonctuations,  " ")
+	AfterPonctuations = Par(stringsF)
 	SplitAfterPonctuations := GoodKeys(AfterPonctuations)
 	AfterPonctuations = punc(SplitAfterPonctuations)
 	ApsText := aps(AfterPonctuations)
+	AfterPonctuations = Par(stringsF)
 	AfterKey := GoodKeys(ApsText)
 	ModifText := SwitchFunc(AfterKey)
 	AfterModifText := hexbin(ModifText)
@@ -26,7 +29,8 @@ func main() {
 	AfterModifText = aps(AfterModifText)
 	AfterModifText = SwitchFunc(AfterModifText)
 	AfterModifText = vowel(AfterModifText)
+	AfterModifText = GoodKeys(AfterModifText)
 	AfterModifText = punc(AfterModifText)
 	os.WriteFile(os.Args[2], []byte(strings.Join(AfterModifText, " ")), 0666)
-	//fmt.Println(remodif)
+	
 }

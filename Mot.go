@@ -76,15 +76,11 @@ func GoodKeys(tabWord []string) []string {
 					if tabWord[i][j:j+4] == "(up," && tabWord[i][j-1] != ' ' {
 						tabWord[i] = tabWord[i][:j] + " " + tabWord[i][j:]
 						break
-					} /* else if tabWord[i+1][j] == ')' && tabWord[i+1][j+1] != ' ' {
-						tabWord[i+1] = tabWord[i+1][:j+1] + " " + tabWord[i+1][j+1:]
-					} */
+					}
 				}
 				if i+1 < len(tabWord) {
 					for j := 1; j < len(tabWord[i+1])-1; j++ {
-						/* if tabWord[i][j] == '(' && tabWord[i][j-1] != ' ' {
-							tabWord[i] = tabWord[i][:j] + " " + tabWord[i][j:]
-						} */if tabWord[i+1][j] == ')' && tabWord[i+1][j+1] != ' ' {
+						if tabWord[i+1][j] == ')' && tabWord[i+1][j+1] != ' ' {
 							tabWord[i+1] = tabWord[i+1][:j+1] + " " + tabWord[i+1][j+1:]
 							break
 						}
