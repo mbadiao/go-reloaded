@@ -8,7 +8,7 @@ func punc(tabWord []string) []string {
 	tabChar := []rune(text)
 	// Retrait space arrière
 	for i := 1; i < len(tabChar); i++ {
-		if tabChar[i] == '.' || tabChar[i] == ',' || tabChar[i] == ';' || tabChar[i] == '!' || tabChar[i] == '?' || tabChar[i] == ':' || tabChar[i] == '|' || tabChar[i] == '(' || tabChar[i] == ')' || tabChar[i] == 39 {
+		if tabChar[i] == '.' || tabChar[i] == ',' || tabChar[i] == ';' || tabChar[i] == '!' || tabChar[i] == '?' || tabChar[i] == ':' || tabChar[i] == '|' || tabChar[i] == '(' || tabChar[i] == ')' || tabChar[i] == 32 {
 			for tabChar[i-1] == ' ' {
 				tabChar = append(tabChar[:i-1], tabChar[i:]...)
 			}

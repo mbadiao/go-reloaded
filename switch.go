@@ -97,9 +97,12 @@ func SwitchFunc(tabWord []string) []string {
 						break
 					}
 					y++
+				//	fmt.Println(y)
 				}
 				for j := y; j <= nbre+(y-1); j++ {
+				//	fmt.Println(y,j)
 					tabWord[i-j] = strings.ToUpper(tabWord[i-j])
+				//	fmt.Println(tabWord[i-j])
 				}
 				confirm = nbre
 			}
